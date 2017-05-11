@@ -13,21 +13,20 @@ Hacked.Binary.prototype = {
 		this.game.physics.startSystem(Phaser.Physics.P2JS);
 
 
-		this.game.physics.p2.enable(this.gem);
-
+		Hacked.addPhysicsToSprite(this.gem);
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 	},
 	update: function() {
 		this.gem.body.setZeroVelocity();
 
 		if (this.cursors.left.isDown) {
-			this.gem.body.moveLeft(200);
+			this.gem.body.moveLeft(150);
 		} else if (this.cursors.right.isDown) {
-			this.gem.body.moveRight(200);
+			this.gem.body.moveRight(150);
 		} else if (this.cursors.up.isDown) {
-			this.gem.body.moveUp(200);
+			this.gem.body.moveUp(150);
 		} else if (this.cursors.down.isDown) {
-			this.gem.body.moveDown(200);
+			this.gem.body.moveDown(150);
 		}
 	},
 };
