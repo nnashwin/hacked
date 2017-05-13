@@ -8,12 +8,16 @@ Hacked.Binary.prototype = {
 	preload: function() {
 		this.game.load.image('gem', 'gem.png');
 		this.game.load.image('alucard', 'alucard-sprite.png');
+		this.game.load.image('landing', 'landing-sprite.jpeg');
 	},
 	create: function() {
-		this.player = Hacked.addSprite(this.game, 'alucard', this.game.world.centerX, this.game.world.centerY);
-		this.gem = this.game.add.sprite(200, this.game.world.centerY, 'gem');
+
+		this.group = this.game.add.group();
+
+		this.player = this.group.create(300, 28, 'alucard');
+		this.gem = this.group.create(200, this.game.world.centerY, 'gem');
 		this.gem2 = this.game.add.sprite(100, this.game.world.centerY, 'gem');
-		this.game.physics.startSystem(Phaser.Physics.ARCADE);
+		this.landing = this.group.create(300, 400, 'landing');
 
 
 
@@ -44,6 +48,8 @@ Hacked.Binary.prototype = {
 
 		this.game.physics.arcade.collide(this.player, this.gem, this.collide, null, this);
 		this.game.physics.arcade.collide(this.player, this.gem2, this.collide, null, this);
+
+		this.group.sort('y', Phaser.Group.SORT_ASCENDING);
 	},
 
 	collide (playerObj, collisionObj) {
