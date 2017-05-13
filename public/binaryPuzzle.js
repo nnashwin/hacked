@@ -20,14 +20,16 @@ Hacked.Binary.prototype = {
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 	},
 	update: function() {
+		this.player.body.velocity.x = 0;
+		this.player.body.velocity.y = 0;
 		if (this.cursors.left.isDown) {
-			this.player.body.moveLeft(150);
+			this.player.body.velocity.x = -150;
 		} else if (this.cursors.right.isDown) {
-			this.player.body.moveRight(150);
+			this.player.body.velocity.x = 150;
 		} else if (this.cursors.up.isDown) {
-			this.player.body.moveUp(150);
+			this.player.body.velocity.y = -150;
 		} else if (this.cursors.down.isDown) {
-			this.player.body.moveDown(150);
+			this.player.body.velocity.y = 150;
 		}
 	},
 };
