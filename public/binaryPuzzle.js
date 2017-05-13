@@ -6,27 +6,28 @@ Hacked.Binary = function(game) {
 
 Hacked.Binary.prototype = {
 	preload: function() {
-		this.game.load.image('gem', 'gem.png')
+		this.game.load.image('gem', 'gem.png');
+		this.game.load.image('alucard', 'alucard-sprite.png');
 	},
 	create: function() {
+		this.player = Hacked.addSprite(this.game, 'alucard', this.game.world.centerX, this.game.world.centerY);
 		this.gem = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'gem');
-		this.game.physics.startSystem(Phaser.Physics.P2JS);
+		this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
 
-		Hacked.addPhysicsToSprite(this.gem);
+		Hacked.addArcadePhysicsToSprite(this.gem);
+		Hacked.addArcadePhysicsToSprite(this.player);
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 	},
 	update: function() {
-		this.gem.body.setZeroVelocity();
-
 		if (this.cursors.left.isDown) {
-			this.gem.body.moveLeft(150);
+			this.player.body.moveLeft(150);
 		} else if (this.cursors.right.isDown) {
-			this.gem.body.moveRight(150);
+			this.player.body.moveRight(150);
 		} else if (this.cursors.up.isDown) {
-			this.gem.body.moveUp(150);
+			this.player.body.moveUp(150);
 		} else if (this.cursors.down.isDown) {
-			this.gem.body.moveDown(150);
+			this.player.body.moveDown(150);
 		}
 	},
 };
