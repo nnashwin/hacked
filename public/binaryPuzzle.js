@@ -18,8 +18,8 @@ Hacked.Binary.prototype = {
 		this.gems = this.game.add.group();
 		this.binaries = this.game.add.group();
 
-		this.binaries.create(200, 10, 'binary-0');
-		this.binaries.create(400, 10, 'binary-1');
+		Hacked.addBinaryToGroup(this.binaries, 200, 10, 0)
+		Hacked.addBinaryToGroup(this.binaries, 400, 10, 1)
 
 		this.binaries.children.map((binary) => {
 			Hacked.addArcadePhysicsToSprite(binary);
@@ -40,6 +40,16 @@ Hacked.Binary.prototype = {
 		this.gem2.body.velocity.x = 0;
 		this.gem2.body.velocity.y = 0;
 
+		if (this.cursors.left.isDown) {
+			this.player.body.velocity.x = -150;
+		} else if (this.cursors.right.isDown) {
+			this.player.body.velocity.x = 150;
+		} else if (this.cursors.up.isDown) {
+			this.player.body.velocity.y = -150;
+		} else if (this.cursors.down.isDown) {
+			this.player.body.velocity.y = 150;
+		}
+
 		this.binaries.children.map((binary, idx, arr) => {
 			binary.body.velocity.x = 0;
 			binary.body.velocity.y = 0;
@@ -50,17 +60,7 @@ Hacked.Binary.prototype = {
 		let binary = this.binaries.children[0];
 		for (let i = 1; i < this.binaries.children.length; i++) {
 			let otherBinary = this.binaries.children[i];
-			this.game.physics.arcade.collide(binary, otherBinary, this.collide, null, this);
-		}
-
-		if (this.cursors.left.isDown) {
-			this.player.body.velocity.x = -150;
-		} else if (this.cursors.right.isDown) {
-			this.player.body.velocity.x = 150;
-		} else if (this.cursors.up.isDown) {
-			this.player.body.velocity.y = -150;
-		} else if (this.cursors.down.isDown) {
-			this.player.body.velocity.y = 150;
+			this.game.physics.arcade.collide(binary, otherBinary, this.binaryCollide, null, this);
 		}
 
 		this.game.physics.arcade.collide(this.player, this.gem2, this.collide, null, this);
@@ -81,6 +81,27 @@ Hacked.Binary.prototype = {
 
 	collide (playerObj, collisionObj) {
 		console.log(playerObj.key);
+	},
+
+	binaryCollide (bin1, bin2) {
+		const binValArr = [];
+		bin1.attachedToGroup = true;
+		bin2.attachedToGroup = true;
+
+		binValArr.push({ pos: bin1.worldPosition.x, val: bin1.binaryVal });
+		binValArr.push({ pos: bin2.worldPosition.x, val: bin2.binaryVal });
+
+		binValArr.sort((a, b) => {
+			return a.pos > b.pos;
+		});
+
+		var binSum = '';
+
+		binValArr.map((binObj) => {
+			binSum = binSum + binObj.val;
+		});
+		
+		const intVal = parseInt(binSum, 2);
 	},
 
 	checkOverlap (spriteA, spriteB) {
