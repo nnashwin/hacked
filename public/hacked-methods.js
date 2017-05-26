@@ -15,3 +15,5 @@ Hacked.addArcadePhysicsToSprite = function (sprites) {
 Hacked.addSprite = function (game, texture, locationX, locationY) {
 	return game.add.sprite(locationX, locationY, texture);
 }
+
+
