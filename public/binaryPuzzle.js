@@ -8,12 +8,22 @@ Hacked.Binary.prototype = {
 	preload: function() {
 		this.game.load.image('gem', 'gem.png');
 		this.game.load.image('alucard', 'alucard-sprite.png');
+		this.game.load.image('binary-0', 'binary-0.png');
+		this.game.load.image('binary-1', 'binary-1.png');
 		this.game.load.image('landing', 'landing-sprite.jpeg');
 	},
 	create: function() {
 
 		this.group = this.game.add.group();
 		this.gems = this.game.add.group();
+		this.binaries = this.game.add.group();
+
+		this.binaries.create(200, 10, 'binary-0');
+		this.binaries.create(400, 10, 'binary-1');
+
+		this.binaries.children.map((binary) => {
+			Hacked.addArcadePhysicsToSprite(binary);
+		});
 
 		this.player = this.group.create(300, 28, 'alucard');
 		this.gem2 = this.gems.create(100, this.game.world.centerY, 'gem');
@@ -29,6 +39,19 @@ Hacked.Binary.prototype = {
 
 		this.gem2.body.velocity.x = 0;
 		this.gem2.body.velocity.y = 0;
+
+		this.binaries.children.map((binary, idx, arr) => {
+			binary.body.velocity.x = 0;
+			binary.body.velocity.y = 0;
+			this.game.physics.arcade.collide(this.player, binary, this.collide, null, this);
+		});
+
+
+		let binary = this.binaries.children[0];
+		for (let i = 1; i < this.binaries.children.length; i++) {
+			let otherBinary = this.binaries.children[i];
+			this.game.physics.arcade.collide(binary, otherBinary, this.collide, null, this);
+		}
 
 		if (this.cursors.left.isDown) {
 			this.player.body.velocity.x = -150;
@@ -57,7 +80,7 @@ Hacked.Binary.prototype = {
 	},
 
 	collide (playerObj, collisionObj) {
-		this.game.stage.backgroundColor = '#992d2d';
+		console.log(playerObj.key);
 	},
 
 	checkOverlap (spriteA, spriteB) {
