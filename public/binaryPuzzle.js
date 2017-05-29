@@ -18,10 +18,13 @@ Hacked.Binary.prototype = {
 		this.gems = this.game.add.group();
 		this.binaries = this.game.add.group();
 
-		Hacked.addBinaryToGroup(this.binaries, 200, 10, 0)
-		Hacked.addBinaryToGroup(this.binaries, 400, 10, 1)
+		Hacked.Binary.addBinaryToGroup(this.binaries, 200, 10, 0);
+		Hacked.Binary.addBinaryToGroup(this.binaries, 400, 10, 1);
+		Hacked.Binary.addBinaryToGroup(this.binaries, 400, 300, 1);
+		Hacked.Binary.addBinaryToGroup(this.binaries, 200, 300, 0);
 
 		this.binaries.children.map((binary) => {
+			console.log(binary);
 			Hacked.addArcadePhysicsToSprite(binary);
 		});
 
@@ -57,58 +60,42 @@ Hacked.Binary.prototype = {
 		});
 
 
-		let binary = this.binaries.children[0];
 		for (let i = 1; i < this.binaries.children.length; i++) {
-			let otherBinary = this.binaries.children[i];
-			this.game.physics.arcade.collide(binary, otherBinary, this.binaryCollide, null, this);
+			let binary = this.binaries.children[i];
+			for (let j = i - 1; j > -1; j--) {
+				let otherBinary = this.binaries.children[j];
+				this.game.physics.arcade.collide(binary, otherBinary, this.binaryCollide, null, this);
+			}
 		}
 
 		this.game.physics.arcade.collide(this.player, this.gem2, this.collide, null, this);
 
 		this.group.sort('y', Phaser.Group.SORT_ASCENDING);
 
-		if (this.checkOverlap(this.gem2, this.landing) && !this.gem2.overlapping) {
-			this.gem2.destroy();
-			this.gem2 = this.gems.create(350, 450, 'alucard');
+		if (Hacked.checkOverlap(this.player, this.landing) && !this.player.overlapping) {
+			this.player.overlapping = true;
 
-			Hacked.addArcadePhysicsToSprite([this.gem2]);
-			this.game.physics.arcade.collide(this.player, this.gem2, this.collide, null, this);
-			this.gem2.overlapping = !this.gem2.overlapping;
-		} else if (this.checkOverlap(this.gem2, this.landing) === false) {
-			this.gem2.overlapping = false;
+			// use the groups children array to iterate over
+			const overlapBinArray = Hacked.Binary.checkOverlappingBinaryBlocks(this.binaries.children, this.landing);
+			console.log(overlapBinArray);
+		} else if (Hacked.checkOverlap(this.player, this.landing) === false){
+			this.player.overlapping = false;
 		}
+
+		// if (this.checkOverlap(this.gem2, this.landing) && !this.gem2.overlapping) {
+		// 	this.gem2.destroy();
+		// 	this.gem2 = this.gems.create(350, 450, 'alucard');
+
+		// 	Hacked.addArcadePhysicsToSprite([this.gem2]);
+		// 	this.game.physics.arcade.collide(this.player, this.gem2, this.collide, null, this);
+		// 	this.gem2.overlapping = !this.gem2.overlapping;
+		// } else if (this.checkOverlap(this.gem2, this.landing) === false) {
+		// 	this.gem2.overlapping = false;
+		// }
 	},
 
 	collide (playerObj, collisionObj) {
 		console.log(playerObj.key);
-	},
-
-	binaryCollide (bin1, bin2) {
-		const binValArr = [];
-		bin1.attachedToGroup = true;
-		bin2.attachedToGroup = true;
-
-		binValArr.push({ pos: bin1.worldPosition.x, val: bin1.binaryVal });
-		binValArr.push({ pos: bin2.worldPosition.x, val: bin2.binaryVal });
-
-		binValArr.sort((a, b) => {
-			return a.pos > b.pos;
-		});
-
-		var binSum = '';
-
-		binValArr.map((binObj) => {
-			binSum = binSum + binObj.val;
-		});
-		
-		const intVal = parseInt(binSum, 2);
-	},
-
-	checkOverlap (spriteA, spriteB) {
-		let boundsA = spriteA.getBounds();
-		let boundsB = spriteB.getBounds();
-
-		return Phaser.Rectangle.intersects(boundsA, boundsB);
 	},
 
 	render () {
