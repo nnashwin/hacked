@@ -16,6 +16,7 @@ Hacked.Binary.prototype = {
 
 		this.group = this.game.add.group();
 		this.binaries = this.game.add.group();
+		this.binaries.enableBody = true;
 
 		this.matchNumber = Hacked.generateRandomNumber(100);
 		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
@@ -26,10 +27,6 @@ Hacked.Binary.prototype = {
 			Hacked.Binary.addBinaryToGroup(this.binaries, Math.floor(Math.random() * 400), (400 + (Math.random() * 100)), parseInt(binDig));
 		}
 		
-		this.binaries.children.map((binary) => {
-			Hacked.addArcadePhysicsToSprite(binary);
-		});
-
 		this.player = this.group.create(300, 28, 'alucard');
 		this.landing = this.group.create(300, 400, 'landing');
 		this.opposite = this.group.create(0, 0, 'opposite');
@@ -37,35 +34,31 @@ Hacked.Binary.prototype = {
 		Hacked.addArcadePhysicsToSprite([this.player, this.landing]);
 
 		this.cursors = this.game.input.keyboard.createCursorKeys();
+
+		this.game.camera.follow(this.player);
+		this.player.anchor.setTo(0.5, 0.5);
 	},
 	update: function() {
 		this.player.body.velocity.x = 0;
 		this.player.body.velocity.y = 0;
 
 		if (this.cursors.left.isDown) {
-			this.player.body.velocity.x = -150;
+			this.player.body.x -= 5;
 		} else if (this.cursors.right.isDown) {
-			this.player.body.velocity.x = 150;
+			this.player.body.x += 5;
 		} else if (this.cursors.up.isDown) {
-			this.player.body.velocity.y = -150;
+			this.player.body.y -= 5;
 		} else if (this.cursors.down.isDown) {
-			this.player.body.velocity.y = 150;
+			this.player.body.y += 5;
 		}
 
 		this.binaries.children.map((binary, idx, arr) => {
 			binary.body.velocity.x = 0;
 			binary.body.velocity.y = 0;
+			Hacked.addArcadePhysicsToSprite(binary);
 			this.game.physics.arcade.collide(this.player, binary, this.collide, null, this);
+			this.game.physics.arcade.collide(this.binaries, binary, this.collide, null, this);
 		});
-
-
-		for (let i = 1; i < this.binaries.children.length; i++) {
-			let binary = this.binaries.children[i];
-			for (let j = i - 1; j > -1; j--) {
-				let otherBinary = this.binaries.children[j];
-				this.game.physics.arcade.collide(binary, otherBinary, this.binaryCollide, null, this);
-			}
-		}
 
 		this.group.sort('y', Phaser.Group.SORT_ASCENDING);
 
@@ -88,6 +81,7 @@ Hacked.Binary.prototype = {
 			overlapBinArray.map((binSprite) => {
 				binSprite.binaryVal === '0' ? binSprite.binaryVal = '1' : binSprite.binaryVal = '0';
 				binSprite.loadTexture(`binary-${binSprite.binaryVal}`, 0);
+				// Hacked.addArcadePhysicsToSprite(binSprite);
 			});
 		} else if (!Hacked.checkOverlap(this.opposite, this.player)) {
 			this.player.overlapOpposite = false;
@@ -100,5 +94,6 @@ Hacked.Binary.prototype = {
 
 	render () {
 		this.game.debug.body(this.player);
+		this.game.debug.text(this.game.time.fps || '--', 2, 14, "pink");
 	}
 };
