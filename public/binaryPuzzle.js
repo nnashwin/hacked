@@ -17,13 +17,15 @@ Hacked.Binary.prototype = {
 		this.group = this.game.add.group();
 		this.binaries = this.game.add.group();
 
-		Hacked.Binary.addBinaryToGroup(this.binaries, 200, 10, 0);
-		Hacked.Binary.addBinaryToGroup(this.binaries, 400, 10, 1);
-		Hacked.Binary.addBinaryToGroup(this.binaries, 400, 300, 1);
-		Hacked.Binary.addBinaryToGroup(this.binaries, 200, 300, 0);
-		Hacked.Binary.addBinaryToGroup(this.binaries, 200, 500, 1);
-		Hacked.Binary.addBinaryToGroup(this.binaries, 200, 800, 0);
+		this.matchNumber = Hacked.generateRandomNumber(100);
+		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
+		this.numberText = this.game.add.text(600, 70, this.matchNumber, style);
 
+		this.binaryMatchNum = this.matchNumber.toString(2);
+		for (let binDig of this.binaryMatchNum) {
+			Hacked.Binary.addBinaryToGroup(this.binaries, Math.floor(Math.random() * 400), (400 + (Math.random() * 100)), parseInt(binDig));
+		}
+		
 		this.binaries.children.map((binary) => {
 			Hacked.addArcadePhysicsToSprite(binary);
 		});
@@ -73,7 +75,9 @@ Hacked.Binary.prototype = {
 			// use the groups children array to iterate over
 			const overlapBinArray = Hacked.Binary.checkOverlappingBinaryBlocks(this.binaries.children, this.landing);
 			const binIntValue = Hacked.Binary.calculateInt(overlapBinArray);
-			console.log(binIntValue);
+			if (binIntValue === this.matchNumber) {
+				console.log('you win!');
+			}
 		} else if (Hacked.checkOverlap(this.player, this.landing) === false){
 			this.player.overlapping = false;
 		}
