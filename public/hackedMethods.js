@@ -22,3 +22,9 @@ Hacked.checkOverlap = function (spriteA, spriteB) {
 
 		return Phaser.Rectangle.intersects(boundsA, boundsB);
 }
+
+Hacked.generateRandomNumber = function (max) {
+	const MAX_NUMBER = typeof max === 'undefined' ? 10 : max;
+	// Change this in the future if you need a more random number
+	return Math.round(Math.random() * MAX_NUMBER);
+}
