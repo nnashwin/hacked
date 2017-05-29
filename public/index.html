@@ -12,7 +12,7 @@
 <body>
 	<script type="text/javascript">
 	window.onload = function() {
-        Hacked.game = Hacked.game || new Phaser.Game(800, 600, Phaser.AUTO, 'canvas-div');
+        Hacked.game = Hacked.game || new Phaser.Game(800, 600, Phaser.CANVAS, 'canvas-div');
 		Hacked.game.state.add('Boot', Hacked.Boot);
 		Hacked.game.state.add('Binary', Hacked.Binary);
 		Hacked.game.state.start('Boot');
