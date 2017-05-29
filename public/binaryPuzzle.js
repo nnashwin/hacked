@@ -77,21 +77,11 @@ Hacked.Binary.prototype = {
 
 			// use the groups children array to iterate over
 			const overlapBinArray = Hacked.Binary.checkOverlappingBinaryBlocks(this.binaries.children, this.landing);
-			console.log(overlapBinArray);
+			const binIntValue = Hacked.Binary.calculateInt(overlapBinArray);
+			console.log(binIntValue);
 		} else if (Hacked.checkOverlap(this.player, this.landing) === false){
 			this.player.overlapping = false;
 		}
-
-		// if (this.checkOverlap(this.gem2, this.landing) && !this.gem2.overlapping) {
-		// 	this.gem2.destroy();
-		// 	this.gem2 = this.gems.create(350, 450, 'alucard');
-
-		// 	Hacked.addArcadePhysicsToSprite([this.gem2]);
-		// 	this.game.physics.arcade.collide(this.player, this.gem2, this.collide, null, this);
-		// 	this.gem2.overlapping = !this.gem2.overlapping;
-		// } else if (this.checkOverlap(this.gem2, this.landing) === false) {
-		// 	this.gem2.overlapping = false;
-		// }
 	},
 
 	collide (playerObj, collisionObj) {
