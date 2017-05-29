@@ -16,8 +16,9 @@ Hacked.addSprite = function (game, texture, locationX, locationY) {
 	return game.add.sprite(locationX, locationY, texture);
 }
 
-Hacked.addBinaryToGroup = function (group, locX, locY, binaryVal) {
-	const binary = group.create(locX, locY, `binary-${binaryVal.toString()}`);
-	binary.binaryVal = binaryVal.toString();
-	return binary;
+Hacked.checkOverlap = function (spriteA, spriteB) {
+		let boundsA = spriteA.getBounds();
+		let boundsB = spriteB.getBounds();
+
+		return Phaser.Rectangle.intersects(boundsA, boundsB);
 }
