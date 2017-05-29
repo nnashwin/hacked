@@ -1,10 +1,9 @@
-Hacked.Binary.calculateInt = function (bin1, bin2) {
+Hacked.Binary.calculateInt = function (spriteArray) {
 	const binValArr = [];
-	bin1.attachedToGroup = true;
-	bin2.attachedToGroup = true;
 
-	binValArr.push({ pos: bin1.worldPosition.x, val: bin1.binaryVal });
-	binValArr.push({ pos: bin2.worldPosition.x, val: bin2.binaryVal });
+	spriteArray.map((binSprite) => {
+		binValArr.push({ pos: binSprite.worldPosition.x, val: binSprite.binaryVal });
+	});
 
 	binValArr.sort((a, b) => {
 		return a.pos > b.pos;
@@ -16,8 +15,7 @@ Hacked.Binary.calculateInt = function (bin1, bin2) {
 		binSum = binSum + binObj.val;
 	});
 	
-	const intVal = parseInt(binSum, 2);
-	console.log(intVal);
+	return parseInt(binSum, 2);
 }
 
 Hacked.Binary.checkOverlappingBinaryBlocks = function (binaryGroup, landingSprite) {
