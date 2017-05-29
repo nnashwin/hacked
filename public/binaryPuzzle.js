@@ -81,7 +81,6 @@ Hacked.Binary.prototype = {
 			overlapBinArray.map((binSprite) => {
 				binSprite.binaryVal === '0' ? binSprite.binaryVal = '1' : binSprite.binaryVal = '0';
 				binSprite.loadTexture(`binary-${binSprite.binaryVal}`, 0);
-				// Hacked.addArcadePhysicsToSprite(binSprite);
 			});
 		} else if (!Hacked.checkOverlap(this.opposite, this.player)) {
 			this.player.overlapOpposite = false;
