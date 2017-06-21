@@ -11,6 +11,7 @@ Hacked.Binary.prototype = {
 		this.game.load.image('binary-1', 'binary-1.png');
 		this.game.load.image('landing', 'landing-sprite.jpeg');
 		this.game.load.image('opposite', 'opposite.jpeg');
+		this.game.load.image('placer', 'purps-placer.png');
 	},
 
 	create: function() {
@@ -19,6 +20,7 @@ Hacked.Binary.prototype = {
 		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
 
 		this.group = this.game.add.group();
+		this.placers = this.game.add.group();
 		this.binaries = this.game.add.group();
 		this.binaries.enableBody = true;
 
@@ -33,16 +35,19 @@ Hacked.Binary.prototype = {
 			Hacked.Binary.addBinaryToGroup(this.binaries, Math.floor(Math.random() * 400), (400 + (Math.random() * 100)), parseInt(binDig));
 		}
 
+		// create holding places
+		Hacked.Binary.addPlacers(this.placers, 200, 200, this.binaryMatchNum)
+		// for (let binDig of this.binaryMatchNum) {
+		// 	let placer = this.placers.create(100, 100, 'placer')	
+		// }
 
 
 		this.player = this.group.create(300, 28, 'alucard');
 
 		
-		this.landing = this.group.create(300, 400, 'landing');
 		this.opposite = this.group.create(0, 0, 'opposite');
 
-		Hacked.addArcadePhysicsToSprite([this.player, this.landing]);
-
+		Hacked.addArcadePhysicsToSprite([this.player]);
 
 
 		this.player.body.collideWorldBounds = true;
@@ -77,29 +82,29 @@ Hacked.Binary.prototype = {
 
 		this.group.sort('y', Phaser.Group.SORT_ASCENDING);
 
-		if (Hacked.checkOverlap(this.player, this.landing) && !this.player.overlapping) {
-			this.player.overlapping = true;
+		// if (Hacked.checkOverlap(this.player, this.landing) && !this.player.overlapping) {
+		// 	this.player.overlapping = true;
 
-			// use the groups children array to iterate over
-			const overlapBinArray = Hacked.Binary.checkOverlappingBinaryBlocks(this.binaries.children, this.landing);
-			const binIntValue = Hacked.Binary.calculateInt(overlapBinArray);
-			if (binIntValue === this.matchNumber) {
-				console.log('you win!');
-			}
-		} else if (Hacked.checkOverlap(this.player, this.landing) === false){
-			this.player.overlapping = false;
-		}
+		// 	// use the groups children array to iterate over
+		// 	const overlapBinArray = Hacked.Binary.checkOverlappingBinaryBlocks(this.binaries.children, this.landing);
+		// 	const binIntValue = Hacked.Binary.calculateInt(overlapBinArray);
+		// 	if (binIntValue === this.matchNumber) {
+		// 		console.log('you win!');
+		// 	}
+		// } else if (Hacked.checkOverlap(this.player, this.landing) === false){
+		// 	this.player.overlapping = false;
+		// }
 
-		if (Hacked.checkOverlap(this.opposite, this.player) && !this.player.overlapOpposite) {
-			this.player.overlapOpposite = true;
-			const overlapBinArray = Hacked.Binary.checkOverlappingBinaryBlocks(this.binaries.children, this.landing);
-			overlapBinArray.map((binSprite) => {
-				binSprite.binaryVal === '0' ? binSprite.binaryVal = '1' : binSprite.binaryVal = '0';
-				binSprite.loadTexture(`binary-${binSprite.binaryVal}`, 0);
-			});
-		} else if (!Hacked.checkOverlap(this.opposite, this.player)) {
-			this.player.overlapOpposite = false;
-		}
+		// if (Hacked.checkOverlap(this.opposite, this.player) && !this.player.overlapOpposite) {
+		// 	this.player.overlapOpposite = true;
+		// 	const overlapBinArray = Hacked.Binary.checkOverlappingBinaryBlocks(this.binaries.children, this.landing);
+		// 	overlapBinArray.map((binSprite) => {
+		// 		binSprite.binaryVal === '0' ? binSprite.binaryVal = '1' : binSprite.binaryVal = '0';
+		// 		binSprite.loadTexture(`binary-${binSprite.binaryVal}`, 0);
+		// 	});
+		// } else if (!Hacked.checkOverlap(this.opposite, this.player)) {
+		// 	this.player.overlapOpposite = false;
+		// }
 	},
 
 	collide (playerObj, collisionObj) {
