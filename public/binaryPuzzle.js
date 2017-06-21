@@ -12,31 +12,46 @@ Hacked.Binary.prototype = {
 		this.game.load.image('landing', 'landing-sprite.jpeg');
 		this.game.load.image('opposite', 'opposite.jpeg');
 	},
+
 	create: function() {
+		this.game.world.setBounds(0, 0, 1920, 1920)
+
+		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
 
 		this.group = this.game.add.group();
 		this.binaries = this.game.add.group();
 		this.binaries.enableBody = true;
 
-		this.matchNumber = Hacked.generateRandomNumber(100);
-		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
+		this.binaries.allSet = false;
+
+		this.matchNumber = Hacked.generateRandomNumber(10);
 		this.numberText = this.game.add.text(600, 70, this.matchNumber, style);
 
 		this.binaryMatchNum = this.matchNumber.toString(2);
+
 		for (let binDig of this.binaryMatchNum) {
 			Hacked.Binary.addBinaryToGroup(this.binaries, Math.floor(Math.random() * 400), (400 + (Math.random() * 100)), parseInt(binDig));
 		}
-		
+
+
+
 		this.player = this.group.create(300, 28, 'alucard');
+
+		
 		this.landing = this.group.create(300, 400, 'landing');
 		this.opposite = this.group.create(0, 0, 'opposite');
 
 		Hacked.addArcadePhysicsToSprite([this.player, this.landing]);
 
+
+
+		this.player.body.collideWorldBounds = true;
+		this.game.camera.follow(this.player);
+
+
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 
-		this.game.camera.follow(this.player);
-		this.player.anchor.setTo(0.5, 0.5);
+
 	},
 	update: function() {
 		this.player.body.velocity.x = 0;
