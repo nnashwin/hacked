@@ -35,6 +35,14 @@ Hacked.Binary.addBinaryToGroup = function (group, locX, locY, binaryVal) {
 	return binary;
 }
 
+Hacked.Binary.addBinaries = function (group, digits) {
+	let locX = 100;
+	for (let binDig of digits) {
+		Hacked.Binary.addBinaryToGroup(group, locX, 400, parseInt(binDig));
+		locX += 100;
+	}
+}
+
 Hacked.Binary.addPlacers = function (group, startLocX, startLocY, digits) {
 	let locX = startLocX;
 	const locY = startLocY;
