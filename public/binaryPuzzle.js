@@ -16,18 +16,21 @@ Hacked.Binary.prototype = {
 	},
 
 	create: function() {
-		this.game.world.setBounds(0, 0, 1920, 1920)
+		this.MOVE_SPEED = 3;
+		const PUZZLE_BOUND = 1920;
+
+
+		this.game.world.setBounds(0, 0, PUZZLE_BOUND, PUZZLE_BOUND);
 
 		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
 
-		this.MOVE_SPEED = 5;
 
 		this.group = this.game.add.group();
 		this.placers = this.game.add.group();
 		this.binaries = this.game.add.group();
 		this.buttons = this.game.add.group();
 
-		this.buttons.create(500, 500, 'unpressButton');
+		this.submitButton =  this.buttons.create(500, 300, 'unpressButton');
 
 		this.binaries.enableBody = true;
 		this.binaries.allSet = false;
@@ -44,7 +47,6 @@ Hacked.Binary.prototype = {
 
 		this.player = this.group.create(300, 28, 'alucard');
 
-		
 		this.opposite = this.group.create(0, 0, 'opposite');
 
 		Hacked.addArcadePhysicsToSprite([this.player]);
@@ -52,7 +54,6 @@ Hacked.Binary.prototype = {
 
 		this.player.body.collideWorldBounds = true;
 		this.game.camera.follow(this.player);
-
 
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 
@@ -82,6 +83,9 @@ Hacked.Binary.prototype = {
 
 		this.group.sort('y', Phaser.Group.SORT_ASCENDING);
 
+		if (Hacked.checkOverlap(this.player, this.submitButton)) { 
+			console.log('overlapping');
+		}
 		// if (Hacked.checkOverlap(this.player, this.landing) && !this.player.overlapping) {
 		// 	this.player.overlapping = true;
 
