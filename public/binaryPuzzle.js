@@ -6,12 +6,13 @@ Hacked.Binary = function(game) {
 
 Hacked.Binary.prototype = {
 	preload: function() {
-		this.game.load.image('alucard', 'alucard-sprite.png');
-		this.game.load.image('binary-0', 'binary-0.png');
-		this.game.load.image('binary-1', 'binary-1.png');
-		this.game.load.image('landing', 'landing-sprite.jpeg');
-		this.game.load.image('opposite', 'opposite.jpeg');
-		this.game.load.image('placer', 'purps-placer.png');
+		this.game.load.image('alucard', 'assets/alucard-sprite.png');
+		this.game.load.image('binary-0', 'assets/binary-0.png');
+		this.game.load.image('binary-1', 'assets/binary-1.png');
+		this.game.load.image('opposite', 'assets/opposite.jpeg');
+		this.game.load.image('placer', 'assets/purps-placer.png');
+		this.game.load.image('unpressButton', 'assets/button-unpressed.png');
+		this.game.load.image('pressButton', 'assets/button-pressed.png');
 	},
 
 	create: function() {
@@ -19,11 +20,16 @@ Hacked.Binary.prototype = {
 
 		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
 
+		this.MOVE_SPEED = 5;
+
 		this.group = this.game.add.group();
 		this.placers = this.game.add.group();
 		this.binaries = this.game.add.group();
-		this.binaries.enableBody = true;
+		this.buttons = this.game.add.group();
 
+		this.buttons.create(500, 500, 'unpressButton');
+
+		this.binaries.enableBody = true;
 		this.binaries.allSet = false;
 
 		this.matchNumber = Hacked.generateRandomNumber(10);
@@ -31,16 +37,10 @@ Hacked.Binary.prototype = {
 
 		this.binaryMatchNum = this.matchNumber.toString(2);
 
-		for (let binDig of this.binaryMatchNum) {
-			Hacked.Binary.addBinaryToGroup(this.binaries, Math.floor(Math.random() * 400), (400 + (Math.random() * 100)), parseInt(binDig));
-		}
+		Hacked.Binary.addBinaries(this.binaries,this.binaryMatchNum);
 
 		// create holding places
 		Hacked.Binary.addPlacers(this.placers, 200, 200, this.binaryMatchNum)
-		// for (let binDig of this.binaryMatchNum) {
-		// 	let placer = this.placers.create(100, 100, 'placer')	
-		// }
-
 
 		this.player = this.group.create(300, 28, 'alucard');
 
@@ -63,13 +63,13 @@ Hacked.Binary.prototype = {
 		this.player.body.velocity.y = 0;
 
 		if (this.cursors.left.isDown) {
-			this.player.body.x -= 5;
+			this.player.body.x -= this.MOVE_SPEED;
 		} else if (this.cursors.right.isDown) {
-			this.player.body.x += 5;
+			this.player.body.x += this.MOVE_SPEED;
 		} else if (this.cursors.up.isDown) {
-			this.player.body.y -= 5;
+			this.player.body.y -= this.MOVE_SPEED;
 		} else if (this.cursors.down.isDown) {
-			this.player.body.y += 5;
+			this.player.body.y += this.MOVE_SPEED;
 		}
 
 		this.binaries.children.map((binary, idx, arr) => {
