@@ -31,3 +31,5 @@ But in the end, it was the AI who started to control him through propoganda and 
 The main character's catch phrase could be, "I just want to do my job."
 
 Have some parodies of technical recruiters, developers, and business people culture in the game.  Characatures are best.
+
+*IDEA: Circuit puzzle could include more pieces to increase difficulty.  Kind of like Andre's game he played where you have to use the ray and deflector to solve problems.
