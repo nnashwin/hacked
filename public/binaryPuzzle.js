@@ -40,7 +40,17 @@ Hacked.Binary.prototype = {
 
 		this.binaryMatchNum = this.matchNumber.toString(2);
 
+		// add binary blocks
 		Hacked.Binary.addBinaries(this.binaries,this.binaryMatchNum);
+
+		// configure binary blocks
+		this.binaries.children.map((binary, idx, arr) => {
+			binary.body.velocity.x = 0;
+			binary.body.velocity.y = 0;
+			Hacked.addArcadePhysicsToSprite(binary);
+			this.game.physics.arcade.collide(this.player, binary, this.collide, null, this);
+			this.game.physics.arcade.collide(this.binaries, binary, this.collide, null, this);
+		});
 
 		// create holding places
 		Hacked.Binary.addPlacers(this.placers, 200, 200, this.binaryMatchNum)
@@ -51,8 +61,8 @@ Hacked.Binary.prototype = {
 
 		Hacked.addArcadePhysicsToSprite([this.player]);
 
-
 		this.player.body.collideWorldBounds = true;
+
 		this.game.camera.follow(this.player);
 
 		this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -73,13 +83,7 @@ Hacked.Binary.prototype = {
 			this.player.body.y += this.MOVE_SPEED;
 		}
 
-		this.binaries.children.map((binary, idx, arr) => {
-			binary.body.velocity.x = 0;
-			binary.body.velocity.y = 0;
-			Hacked.addArcadePhysicsToSprite(binary);
-			this.game.physics.arcade.collide(this.player, binary, this.collide, null, this);
-			this.game.physics.arcade.collide(this.binaries, binary, this.collide, null, this);
-		});
+		
 
 		this.group.sort('y', Phaser.Group.SORT_ASCENDING);
 
