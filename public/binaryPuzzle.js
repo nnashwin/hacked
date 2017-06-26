@@ -69,6 +69,8 @@ Hacked.Binary.prototype = {
 
 
 	},
+
+	
 	update: function() {
 		this.player.body.velocity.x = 0;
 		this.player.body.velocity.y = 0;
@@ -90,6 +92,9 @@ Hacked.Binary.prototype = {
 		if (Hacked.checkOverlap(this.player, this.submitButton)) { 
 			console.log('overlapping');
 		}
+
+
+		this.placers.forEach(this.checkPlacers, this, this.binaries);
 		// if (Hacked.checkOverlap(this.player, this.landing) && !this.player.overlapping) {
 		// 	this.player.overlapping = true;
 
@@ -117,6 +122,11 @@ Hacked.Binary.prototype = {
 
 	collide (playerObj, collisionObj) {
 		console.log(playerObj.key);
+	},
+
+	checkPlacers (child) {
+		console.log(child);
+		console.log(this.binaries);
 	},
 
 	render () {
