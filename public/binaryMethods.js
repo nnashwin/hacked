@@ -48,7 +48,7 @@ Hacked.Binary.addPlacers = function (group, startLocX, startLocY, digits) {
 	const locY = startLocY;
 	for (let digit of digits) {
 		group.create(locX, locY, 'placer');
-		locX += 55;
+		locX += 85;
 	}
 
 	return;
