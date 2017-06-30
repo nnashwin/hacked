@@ -44,13 +44,9 @@ Hacked.Binary.prototype = {
 		Hacked.Binary.addBinaries(this.binaries,this.binaryMatchNum);
 
 		// configure binary blocks
-		this.binaries.children.map((binary, idx, arr) => {
-			binary.body.velocity.x = 0;
-			binary.body.velocity.y = 0;
+		this.binaries.children.map((binary) => {
 			Hacked.addArcadePhysicsToSprite(binary);
-			this.game.physics.arcade.collide(this.player, binary, this.collide, null, this);
-			this.game.physics.arcade.collide(this.binaries, binary, this.collide, null, this);
-		});
+		})	
 
 		// create holding places
 		Hacked.Binary.addPlacers(this.placers, 200, 200, this.binaryMatchNum)
@@ -92,6 +88,13 @@ Hacked.Binary.prototype = {
 		if (Hacked.checkOverlap(this.player, this.submitButton)) { 
 			console.log('overlapping');
 		}
+
+		this.binaries.children.map((binary, idx, arr) => {
+			binary.body.velocity.x = 0;
+			binary.body.velocity.y = 0;
+			this.game.physics.arcade.collide(this.player, binary, this.collide, null, this);
+			this.game.physics.arcade.collide(this.binaries, binary, this.collide, null, this);
+		});
 
 
 		this.placers.forEach(this.checkPlacers, this, this.binaries);
