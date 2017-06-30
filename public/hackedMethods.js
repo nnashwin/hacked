@@ -28,3 +28,18 @@ Hacked.generateRandomNumber = function (max) {
 	// Change this in the future if you need a more random number
 	return Math.round(Math.random() * MAX_NUMBER);
 }
+
+// JS implementation of Fisher-Yates
+Hacked.shuffle = function (arr) {
+	let m = arr.length, t, i;
+
+	while (m) {
+		i = Math.floor(Math.random() * m--);
+
+		t = arr[m];
+		arr[m] = arr[i];
+		arr[i] = t;
+	}
+
+	return arr;
+}
