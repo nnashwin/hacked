@@ -40,6 +40,11 @@ Hacked.Binary.prototype = {
 
 		this.binaryMatchNum = this.matchNumber.toString(2);
 
+		// shuffle binary numbers
+		var binNumArr = this.binaryMatchNum.split("");
+		binNumArr = Hacked.shuffle(binNumArr);
+		this.binaryMatchNum = binNumArr.join("");
+
 		// add binary blocks
 		Hacked.Binary.addBinaries(this.binaries,this.binaryMatchNum);
 
@@ -128,8 +133,8 @@ Hacked.Binary.prototype = {
 	},
 
 	checkPlacers (child) {
-		console.log(child);
-		console.log(this.binaries);
+		// console.log(child);
+		// console.log(this.binaries);
 	},
 
 	render () {
