@@ -56,6 +56,7 @@ Hacked.Binary.prototype = {
 
 		this.placers.children.map((placer) => {
 			Hacked.addArcadePhysicsToSprite(placer);
+			placer.hasBinary = false;
 		})	
 
 		// create holding places
@@ -92,8 +93,11 @@ Hacked.Binary.prototype = {
 		this.group.sort('y', Phaser.Group.SORT_ASCENDING);
 
 		if (Hacked.checkOverlap(this.player, this.submitButton)) { 
-			console.log('overlapping');
 			this.physics.arcade.overlap(this.binaries, this.placers, this.placerHasBinary, null, this);
+			const overlappedPlacers = this.placers.children.filter((placer) => {
+				return placer.hasBinary === true;
+			})
+			console.log(overlappedPlacers);
 		}
 
 
@@ -111,9 +115,8 @@ Hacked.Binary.prototype = {
 		// console.log(playerObj.key);
 	},
 
-	placerHasBinary (placer, binary) {
-		console.log(placer);
-		console.log(binary);
+	placerHasBinary (binary, placer) {
+		return placer.hasBinary = true;
 	},
 
 	render () {
