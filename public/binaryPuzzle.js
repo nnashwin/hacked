@@ -18,11 +18,11 @@ Hacked.Binary.prototype = {
 	create: function() {
 		this.MOVE_SPEED = 3;
 		const PUZZLE_BOUND = 1920;
+		this.COMPLETED_BIN_PUZZ = false;
 
 
 		this.game.world.setBounds(0, 0, PUZZLE_BOUND, PUZZLE_BOUND);
 
-		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
 
 		this.group = this.game.add.group();
 		this.placers = this.game.add.group();
@@ -35,13 +35,18 @@ Hacked.Binary.prototype = {
 		this.binaries.allSet = false;
 
 		this.playerMatchNum = '';
-		this.matchNumber = Hacked.generateRandomNumber(10);
-		this.numberText = this.game.add.text(600, 70, this.matchNumber, style);
 
+		// generate number to match against
+		this.matchNumber = Hacked.generateRandomNumber(10);
+
+		// display it on screen
+		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
+		this.winText = this.game.add.text(50, 300, "", style);
+
+		// change match number to binary and shuffle them
 		this.binaryMatchNum = this.matchNumber.toString(2);
 
-		// shuffle binary numbers
-		var binNumArr = this.binaryMatchNum.split("");
+		let binNumArr = this.binaryMatchNum.split("");
 		binNumArr = Hacked.shuffle(binNumArr);
 		this.binaryMatchNum = binNumArr.join("");
 
@@ -78,6 +83,11 @@ Hacked.Binary.prototype = {
 
 	
 	update: function() {
+
+		if (this.numberText) {
+			this.numberText.destroy();
+		}
+
 		this.player.body.velocity.x = 0;
 		this.player.body.velocity.y = 0;
 
@@ -104,8 +114,15 @@ Hacked.Binary.prototype = {
 				return sum + sprite.binaryVal;
 			}, '');
 
-			console.log(parseInt(binaryVal, 2));
-			
+			this.playerMatchNum = parseInt(binaryVal, 2)
+			if(this.matchNumber === this.playerMatchNum) {
+				this.COMPLETED_BIN_PUZZ = true;
+			};
+		}
+
+		if (this.COMPLETED_BIN_PUZZ === true) {
+			// this.numberText = this.game.add.text(600, 70, this.matchNumber, style);
+			this.winText.text = "YOU WIN"
 		}
 
 
@@ -116,7 +133,10 @@ Hacked.Binary.prototype = {
 			this.game.physics.arcade.collide(this.binaries, binary, this.collide, null, this);
 		});
 
+		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
 
+		const { x, y } = this.game.camera.view;
+		this.numberText = this.game.add.text(x + 600, y + 70, this.matchNumber, style);
 	},
 
 	collide (playerObj, collisionObj) {
