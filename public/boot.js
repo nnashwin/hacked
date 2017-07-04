@@ -9,6 +9,6 @@ Hacked.Boot.prototype = {
 		this.game.time.advancedTiming = true;
 	},
 	create: function() {
-		this.game.state.start('Binary');
+		this.game.state.start('Text-Interlude');
 	}
 }
