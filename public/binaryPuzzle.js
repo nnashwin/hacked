@@ -34,6 +34,7 @@ Hacked.Binary.prototype = {
 		this.binaries.enableBody = true;
 		this.binaries.allSet = false;
 
+		this.playerMatchNum = '';
 		this.matchNumber = Hacked.generateRandomNumber(10);
 		this.numberText = this.game.add.text(600, 70, this.matchNumber, style);
 
@@ -57,6 +58,7 @@ Hacked.Binary.prototype = {
 		this.placers.children.map((placer) => {
 			Hacked.addArcadePhysicsToSprite(placer);
 			placer.hasBinary = false;
+			placer.binaryVal = '';
 		})	
 
 		// create holding places
@@ -96,8 +98,14 @@ Hacked.Binary.prototype = {
 			this.physics.arcade.overlap(this.binaries, this.placers, this.placerHasBinary, null, this);
 			const overlappedPlacers = this.placers.children.filter((placer) => {
 				return placer.hasBinary === true;
-			})
-			console.log(overlappedPlacers);
+			});
+			 
+			const binaryVal = overlappedPlacers.reduce((sum, sprite) => {
+				return sum + sprite.binaryVal;
+			}, '');
+
+			console.log(parseInt(binaryVal, 2));
+			
 		}
 
 
@@ -116,6 +124,7 @@ Hacked.Binary.prototype = {
 	},
 
 	placerHasBinary (binary, placer) {
+		placer.binaryVal = binary.binaryVal;
 		return placer.hasBinary = true;
 	},
 
