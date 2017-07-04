@@ -5,6 +5,7 @@
 	<title></title>
 	<script src="boot.js"></script>
 	<script src="binaryPuzzle.js"></script>
+	<script src="interlude.js"></script>
 	<script src="hackedMethods.js"></script>
 	<script src="binaryMethods.js"></script>
 	<script src="phaser.min.js"></script>
@@ -15,6 +16,7 @@
         Hacked.game = Hacked.game || new Phaser.Game(800, 600, Phaser.CANVAS, 'canvas-div');
 		Hacked.game.state.add('Boot', Hacked.Boot);
 		Hacked.game.state.add('Binary', Hacked.Binary);
+		Hacked.game.state.add('Text-Interlude', Hacked.TextInterlude);
 		Hacked.game.state.start('Boot');
 	}
 	</script>
