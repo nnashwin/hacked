@@ -9,11 +9,9 @@ Hacked.Binary.calculateInt = function (spriteArray) {
 		return a.pos > b.pos;
 	});
 
-	var binSum = '';
-
-	binValArr.map((binObj) => {
-		binSum = binSum + binObj.val;
-	});
+	const binSum = binValArr.reduce((binSum, binObj) => {
+		return binSum + binObj.val;
+	}, '');
 	
 	return parseInt(binSum, 2);
 }
