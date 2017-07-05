@@ -15,20 +15,37 @@ Hacked.TextInterlude.prototype = {
 		this.wordIndex = 0;
 		this.lineIndex = 0;
 
+		this.isTextComplete = false;
+
 		var style = { font: "15px Arial", fill: "#19de65" };
 		this.winText = this.game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65", align: "left", boundsAlignH: "top", boundsAlignV:"top" });
 		this.nextLine();
 
+		// instantiate blink text
+		this.blinkTimer = 0;
+		this.blinkText = this.game.add.text(10, 10, 'Hit Enter for Next Screen', { font: "25px Arial", fill: "red", align: "left", boundsAlignH: "top", boundsAlignV:"top" })
+		this.blinkText.visible = false;
+	},
+
+	update: function () {
+		if (this.isTextComplete === true) {
+			this.blinkText.alignTo(this.winText, Phaser.BOTTOM_LEFT);
+			this.blinkTimer += this.game.time.elapsed;
+			if (this.blinkTimer >= 1000) {
+				this.blinkTimer = 0;
+				this.blinkText.visible = !this.blinkText.visible;
+			}
+		}
 	},
 
 	nextLine: function () {
-		const wordDelay = 120;
+		const wordDelay = 50;
 		const lineDelay = 400;
 		let line = [];
 		
 		
 		if (this.lineIndex === this.dialogueContent.length) {
-			console.log('finished');
+			this.isTextComplete = true;
 			return;
 		}
 
@@ -53,6 +70,5 @@ Hacked.TextInterlude.prototype = {
 
 			this.game.time.events.add(lineDelay, this.nextLine, this);
 		}
-		
 	}
 }
