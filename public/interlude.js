@@ -1,16 +1,17 @@
 var Hacked = Hacked || {};
 
 Hacked.TextInterlude = function(game) {
-
 }
 
 Hacked.TextInterlude.prototype = {
 	preload: function () {
-
+		this.game.load.json('windowDiag', 'data/dialogue.json')
 	},
 
 	create: function () {
-		console.log('in interlude state');
+		const currSceneIdx = this.game.sceneOrder[this.game.currSceneCounter];
+		const dialogueJson = this.game.cache.getJSON('windowDiag')[currSceneIdx];
+		console.log(dialogueJson);
 	},
 
 	update: function () {
@@ -20,4 +21,5 @@ Hacked.TextInterlude.prototype = {
 	render: function () {
 
 	},
+
 }
