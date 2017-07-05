@@ -25,6 +25,10 @@ Hacked.TextInterlude.prototype = {
 		this.blinkTimer = 0;
 		this.blinkText = this.game.add.text(10, 10, 'Hit Enter for Next Screen', { font: "25px Arial", fill: "red", align: "left", boundsAlignH: "top", boundsAlignV:"top" })
 		this.blinkText.visible = false;
+
+
+		// instantiate enter key
+		this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 	},
 
 	update: function () {
@@ -34,6 +38,10 @@ Hacked.TextInterlude.prototype = {
 			if (this.blinkTimer >= 1000) {
 				this.blinkTimer = 0;
 				this.blinkText.visible = !this.blinkText.visible;
+			}
+
+			if (this.enterKey.isDown) {
+				this.game.state.start('Binary');
 			}
 		}
 	},
