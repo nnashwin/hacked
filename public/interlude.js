@@ -11,6 +11,7 @@ Hacked.TextInterlude.prototype = {
 	create: function () {
 		const currSceneIdx = this.game.sceneOrder[this.game.currSceneCounter];
 		this.dialogueContent = this.game.cache.getJSON('windowDiag')[currSceneIdx];
+		this.fullText = this.createFullText(this.dialogueContent);
 
 		this.wordIndex = 0;
 		this.lineIndex = 0;
@@ -19,7 +20,7 @@ Hacked.TextInterlude.prototype = {
 
 		var style = { font: "15px Arial", fill: "#19de65" };
 		this.winText = this.game.add.text(32, 32, '', { font: "15px Arial", fill: "#19de65", align: "left", boundsAlignH: "top", boundsAlignV:"top" });
-		this.nextLine();
+		this.nextLine(50, 400);
 
 		// instantiate blink text
 		this.blinkTimer = 0;
@@ -29,6 +30,7 @@ Hacked.TextInterlude.prototype = {
 
 		// instantiate enter key
 		this.enterKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+		this.enterTimer = 0;
 	},
 
 	update: function () {
@@ -40,15 +42,25 @@ Hacked.TextInterlude.prototype = {
 				this.blinkText.visible = !this.blinkText.visible;
 			}
 
-			if (this.enterKey.isDown) {
+			if (this.enterKey.isDown && this.enterTimer >= 50) {
 				this.game.state.start('Binary');
 			}
+		} else if (this.isTextComplete === false){
+			if (this.enterKey.isDown) {
+				this.game.time.events.destroy();
+				this.winText.destroy()
+				this.winText = this.game.add.text(32, 32, this.fullText, { font: "15px Arial", fill: "#19de65", align: "left", boundsAlignH: "top", boundsAlignV:"top" })
+
+				this.isTextComplete = !this.isTextComplete;
+				this.enterTimer = 0;
+			}
 		}
+		this.enterTimer++;
 	},
 
-	nextLine: function () {
-		const wordDelay = 50;
-		const lineDelay = 400;
+	nextLine: function (wordD, lineD) {
+		const wordDelay = wordD;
+		const lineDelay = lineD;
 		let line = [];
 		
 		
@@ -61,14 +73,14 @@ Hacked.TextInterlude.prototype = {
 
 		this.wordIndex = 0;
 
-		this.game.time.events.repeat(wordDelay, line.length, this.nextWord, this, [line, lineDelay]);
+		this.game.time.events.repeat(wordDelay, line.length, this.nextWord, this, [line, lineDelay, wordDelay]);
 
 		this.lineIndex++;
 
 	},
 
 	nextWord: function (textArgs) {
-		let [line, lineDelay] = textArgs;
+		let [line, lineDelay, wordDelay] = textArgs;
 		this.winText.text = this.winText.text.concat(line[this.wordIndex] + " ");
 
 		this.wordIndex++;
@@ -76,7 +88,11 @@ Hacked.TextInterlude.prototype = {
 		if (this.wordIndex === line.length) {
 			this.winText.text = this.winText.text.concat("\n");
 
-			this.game.time.events.add(lineDelay, this.nextLine, this);
+			this.game.time.events.add(lineDelay, this.nextLine, this, wordDelay, lineDelay);
 		}
+	},
+
+	createFullText: function (strArr) {
+		return strArr.reduce((fullText, strIdx) => fullText + '\n' + strIdx);
 	}
 }
