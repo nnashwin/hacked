@@ -1,5 +1,6 @@
 {
-	"intro": [
+	"intro": {
+		"text": [
 		"The sky above the port was the color of television, tuned to a dead channel.",
 		"`It's not like I'm using,' Case heard someone say, as he shouldered his way ",
 		"through the crowd around the door of the Chat. `It's like my body's developed",
@@ -20,5 +21,7 @@
 		"affordable beauty, there was something heraldic about his lack of it. The antique",
 		"arm whined as he reached for another mug.",
 		"From Neuromancer by William Gibson"
-	]
+		],
+		"nextState": "Binary"
+	}
 }

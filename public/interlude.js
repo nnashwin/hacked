@@ -10,7 +10,8 @@ Hacked.TextInterlude.prototype = {
 
 	create: function () {
 		const currSceneIdx = this.game.sceneOrder[this.game.currSceneCounter];
-		this.dialogueContent = this.game.cache.getJSON('windowDiag')[currSceneIdx];
+		this.dialogueContent = this.game.cache.getJSON('windowDiag')[currSceneIdx].text;
+		this.nextState = this.game.cache.getJSON('windowDiag')[currSceneIdx].nextState;
 		this.fullText = this.createFullText(this.dialogueContent);
 
 		this.wordIndex = 0;
@@ -43,7 +44,7 @@ Hacked.TextInterlude.prototype = {
 			}
 
 			if (this.enterKey.isDown && this.enterTimer >= 50) {
-				this.game.state.start('Binary');
+				this.game.state.start(this.nextState);
 			}
 		} else if (this.isTextComplete === false){
 			if (this.enterKey.isDown) {
