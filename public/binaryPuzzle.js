@@ -16,13 +16,15 @@ Hacked.Binary.prototype = {
 	},
 
 	create: function() {
+		// create constants
 		this.MOVE_SPEED = 3;
 		const PUZZLE_BOUND = 1920;
 		this.COMPLETED_BIN_PUZZ = false;
+		this.PLAYER_NUM = '';
 
+		this.textStyle = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
 
 		this.game.world.setBounds(0, 0, PUZZLE_BOUND, PUZZLE_BOUND);
-
 
 		this.group = this.game.add.group();
 		this.placers = this.game.add.group();
@@ -34,26 +36,23 @@ Hacked.Binary.prototype = {
 		this.binaries.enableBody = true;
 		this.binaries.allSet = false;
 
-		this.playerMatchNum = '';
-
 		// generate number to match against
 		this.matchNumber = Hacked.generateRandomNumber(10);
 
 		// display it on screen
-		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
-		this.winText = this.game.add.text(50, 300, "", style);
+		this.winText = this.game.add.text(50, 300, "", this.textStyle);
 
 		// change match number to binary and shuffle them
-		this.binaryMatchNum = this.matchNumber.toString(2);
+		this.targetNum = this.matchNumber.toString(2);
 
-		let binNumArr = this.binaryMatchNum.split("");
+		let binNumArr = this.targetNum.split("");
 		binNumArr = Hacked.shuffle(binNumArr);
-		this.binaryMatchNum = binNumArr.join("");
+		this.targetNum = binNumArr.join("");
 
 		// add binary blocks and placers
-		Hacked.Binary.addBinaries(this.binaries,this.binaryMatchNum);
+		Hacked.Binary.addBinaries(this.binaries,this.targetNum);
 
-		Hacked.Binary.addPlacers(this.placers, 200, 200, this.binaryMatchNum)
+		Hacked.Binary.addPlacers(this.placers, 200, 200, this.targetNum);
 
 		// configure binary blocks
 		this.binaries.children.map((binary) => {
@@ -69,7 +68,6 @@ Hacked.Binary.prototype = {
 		// create holding places
 
 		this.player = this.group.create(300, 28, 'alucard');
-
 		this.opposite = this.group.create(0, 0, 'opposite');
 
 		Hacked.addArcadePhysicsToSprite([this.player]);
@@ -84,10 +82,17 @@ Hacked.Binary.prototype = {
 	
 	update: function() {
 
-		if (this.numberText) {
-			this.numberText.destroy();
+		// win condition
+		if (this.COMPLETED_BIN_PUZZ === true) {
+			this.winText.text = "YOU WIN"
 		}
 
+		if (this.numText) {
+			this.numText.destroy();
+			this.playerNumText.destroy();
+		}
+
+		// handle player movement
 		this.player.body.velocity.x = 0;
 		this.player.body.velocity.y = 0;
 
@@ -114,15 +119,10 @@ Hacked.Binary.prototype = {
 				return sum + sprite.binaryVal;
 			}, '');
 
-			this.playerMatchNum = parseInt(binaryVal, 2)
-			if(this.matchNumber === this.playerMatchNum) {
+			this.PLAYER_NUM = parseInt(binaryVal, 2)
+			if(this.matchNumber === this.PLAYER_NUM) {
 				this.COMPLETED_BIN_PUZZ = true;
 			};
-		}
-
-		if (this.COMPLETED_BIN_PUZZ === true) {
-			// this.numberText = this.game.add.text(600, 70, this.matchNumber, style);
-			this.winText.text = "YOU WIN"
 		}
 
 
@@ -133,10 +133,12 @@ Hacked.Binary.prototype = {
 			this.game.physics.arcade.collide(this.binaries, binary, this.collide, null, this);
 		});
 
-		var style = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
+
+		// create moving text for the player and target values
 
 		const { x, y } = this.game.camera.view;
-		this.numberText = this.game.add.text(x + 600, y + 70, this.matchNumber, style);
+		this.numText = this.game.add.text(x + 500, y + 520, `Target Number: ${this.matchNumber}`, this.textStyle);
+		this.playerNumText = this.game.add.text(x + 500, y + 570, `Player Number: ${this.PLAYER_NUM}`, this.textStyle);
 	},
 
 	collide (playerObj, collisionObj) {
