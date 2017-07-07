@@ -16,9 +16,12 @@ Hacked.Binary.prototype = {
 	},
 
 	create: function() {
+		this.timesPlayed = Hacked.CONST.PUZZ_TRACK['Binary'];
+		
 		// create constants
 		this.MOVE_SPEED = 3;
 		const PUZZLE_BOUND = 1920;
+		this.STILL_PLAYING = true;
 		this.COMPLETED_BIN_PUZZ = false;
 		this.PLAYER_NUM = '';
 
@@ -83,8 +86,10 @@ Hacked.Binary.prototype = {
 	update: function() {
 
 		// win condition
-		if (this.COMPLETED_BIN_PUZZ === true) {
+		if (this.COMPLETED_BIN_PUZZ === true && this.STILL_PLAYING === true) {
 			this.winText.text = "YOU WIN"
+			this.timesPlayed += 1;
+			this.STILL_PLAYING = false;
 		}
 
 		if (this.numText) {
