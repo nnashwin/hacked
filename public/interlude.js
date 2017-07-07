@@ -9,6 +9,11 @@ Hacked.TextInterlude.prototype = {
 	},
 
 	create: function () {
+		this.ENTER_PAUSE_BUFFER = 20;
+		this.BLINK_TIMER_BUFFER = 1000;
+		this.TEXT_DEFAULT_START_X = 32;
+		this.TEXT_DEFAULT_START_Y = 32;
+
 		const currSceneIdx = this.game.sceneOrder[this.game.currSceneCounter];
 		this.dialogueContent = this.game.cache.getJSON('windowDiag')[currSceneIdx].text;
 		this.nextState = this.game.cache.getJSON('windowDiag')[currSceneIdx].nextState;
@@ -38,19 +43,19 @@ Hacked.TextInterlude.prototype = {
 		if (this.isTextComplete === true) {
 			this.blinkText.alignTo(this.winText, Phaser.BOTTOM_LEFT);
 			this.blinkTimer += this.game.time.elapsed;
-			if (this.blinkTimer >= 1000) {
+			if (this.blinkTimer >= this.BLINK_TIMER_BUFFER) {
 				this.blinkTimer = 0;
 				this.blinkText.visible = !this.blinkText.visible;
 			}
 
-			if (this.enterKey.isDown && this.enterTimer >= 50) {
+			if (this.enterKey.isDown && this.enterTimer >= this.ENTER_PAUSE_BUFFER) {
 				this.game.state.start(this.nextState);
 			}
 		} else if (this.isTextComplete === false){
 			if (this.enterKey.isDown) {
 				this.game.time.events.destroy();
 				this.winText.destroy()
-				this.winText = this.game.add.text(32, 32, this.fullText, { font: "15px Arial", fill: "#19de65", align: "left", boundsAlignH: "top", boundsAlignV:"top" })
+				this.winText = this.game.add.text(this.TEXT_DEFAULT_START_X, this.TEXT_DEFAULT_START_Y, this.fullText, { font: "15px Arial", fill: "#19de65", align: "left", boundsAlignH: "top", boundsAlignV:"top" })
 
 				this.isTextComplete = !this.isTextComplete;
 				this.enterTimer = 0;
