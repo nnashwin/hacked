@@ -24,6 +24,7 @@ Hacked.Binary.prototype = {
 		this.STILL_PLAYING = true;
 		this.COMPLETED_BIN_PUZZ = false;
 		this.PLAYER_NUM = '';
+		this.BINARY_RANGE = Hacked.Binary.calculateBinaryRange(this.timesPlayed);
 
 		this.textStyle = { font: "20px Arial", fill: "#fff", align: "left", boundsAlignH: "top", boundsAlignV:"top"  };
 
@@ -40,7 +41,7 @@ Hacked.Binary.prototype = {
 		this.binaries.allSet = false;
 
 		// generate number to match against
-		this.matchNumber = Hacked.generateRandomNumber(10);
+		this.matchNumber = Hacked.generateRandomNumber(this.BINARY_RANGE);
 
 		// display it on screen
 		this.winText = this.game.add.text(50, 300, "", this.textStyle);
@@ -90,6 +91,8 @@ Hacked.Binary.prototype = {
 			this.winText.text = "YOU WIN"
 			this.timesPlayed += 1;
 			this.STILL_PLAYING = false;
+			Hacked.CONST.PUZZ_TRACK['Binary'] += 1
+			this.game.state.start("Binary");
 		}
 
 		if (this.numText) {
