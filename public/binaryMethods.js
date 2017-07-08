@@ -51,3 +51,22 @@ Hacked.Binary.addPlacers = function (group, startLocX, startLocY, digits) {
 
 	return;
 }
+
+Hacked.Binary.calculateBinaryRange = function (timesPlayed) {
+	var binaryRange;
+	switch(timesPlayed) {
+		case 0:
+			binaryRange = 10;
+			return binaryRange;
+		case 1:
+			binaryRange = 256;
+			return binaryRange;
+		case 2:
+			binaryRange = 512;
+			return binaryRange;
+		case 3:
+		default:
+			binaryRange = 1024;
+			return binaryRange;
+	}
+}
