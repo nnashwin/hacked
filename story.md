@@ -1,3 +1,5 @@
+The computer's name can be Mike.
+
 After that time, 
 
 1. Character in the zone of comfort: The character (you choose the name) starts out at home, where you choose the name, have his wife / husband kiss you, and you drive to work.
@@ -32,15 +34,15 @@ At this point the player completes the challenge and feels accomplished.  He gra
 8. They have changed as a result of the journey.
 Someone comments: Hey, nice keyboard.
 
-At around 10:00AM Gloriano, a fellow employee, asks him if he wants to order some coffee from the kitchen downstairs.  
+At around 10:00AM Gloria, a fellow employee, asks him if he wants to order some coffee from the kitchen downstairs.  
 
-If the player says yes, Gloriano asks the player for their choice of coffee.
+If the player says yes, Gloria asks the player for their choice of coffee.
 
-The player asks Gloriano if they need to go downstairs, and Gloriano responds that it's fine, they'll bring it up here.
+The player asks Gloria if they need to go downstairs, and Gloria responds that it's fine, they'll bring it up here.
 
 If the player drinks coffee, some stuff will happen later when there is a puzzle which might involve sleep.
 
-If the player doesn't, Gloriano will have some problem later on and say the player "must be a corporate coffee drinking" ~scoff.
+If the player doesn't, Gloria will have some problem later on and say the player "must be a corporate coffee drinker" ~scoff.
 
 1. Character in the zone of comfort: The character 
 
@@ -48,7 +50,7 @@ If the player doesn't, Gloriano will have some problem later on and say the play
 
 3. They enter an unfamiliar situation: Suddenly, at 11:11AM, all of the lights in the building go off.
 
-People are distraught, and the character is asked to go to the breaker room which is off on the side of the building.
+People are distraught, and the character is asked to go to the breaker room which is off on the side of the building. (Why do Sysadmins / engineers always get tasked with EVERYTHING technical)
 
 The character grabs a flashlight and heads out.  Once they are in the room, the character is treated to a panel which has a circuit and contains a circuit type of puzzle for the character to fix.
 
@@ -99,7 +101,7 @@ You hear a type of crackling in the background, but it fades after a little whil
 
 Later on, when the meeting is over, the boss asks you to stay behind.
 
-After Gloriano, Judy, and Lisa leave, the boss sighs and sits down in the chair.
+After Gloria, Jake, and Lisa leave, the boss sighs and sits down in the chair.
 
 "We really took a big hit losing [Sysadmin]", he says to you.
 
@@ -116,25 +118,54 @@ This time, when you step back into the server room, the AI greets you with a mor
 
 You talk to him about remote connections, and he smiles and lets you know it's another puzzle. "And as you know [player], I LOOOVE puzzles...".
 
-This AI is seriously creepy.
+The AI presents the player with a new puzzle type, one that involves learning to convert to base 16 (hexadecimal)
 
+After the player solves the puzzle, the AI asks him a question.
 
+He says, [playerName], what motivates you the most in the world.
 
-1. Character in the zone of comfort: The character 
+Here we can give the players some sort of choice / dialogue box where they choose from a list of predefined things.
 
-2. They desire something: The character is looking to keep going strong and finish up the day without any hiccups.
+Leave two blanks here: I would rather not say and None of the above for the players to choose.
 
-3. They enter an unfamiliar situation: Suddenly, at 11:11AM, all of the lights in the building go off.
+Mike will remember these things for later issues.
 
-4. They adapt to the situation. The player feels like things are going well.  
+After all of the events of the day, the player returns home to see his wife
 
-5. They get that which they wanted.
+Day 1 Ends
 
-6. They pay a heavy price for it.
+Day 2 Begins
 
-7. They return to their familiar situation.
+When day 2 begins, the player wakes up, eats breakfast, kisses his wife, and goes to work.
 
-8. They have changed as a result of the journey.
+When he gets into work, he sees Gloria distraught.
 
+[playername], no matter what I do I just CAN'T seem to fix my computer.
 
+The player checks over at the computer.
 
+Introduce the player to computer puzzles.
+
+The computer puzzles involve the player looking at the comp and trying to do basic IT help things to solve problems.
+
+In this first instance, Gloria's monitor isn't turned on.
+
+Choices for the player involve:
+1. Asking Gloria questions about the computer.
+2. Pressing buttons on the computer / monitor / mouse, etc.
+
+In this scenario Gloria's monitor isn't turned on.  You turn on the monitor, sigh in response, but see a very brief flash of Mike's face on the computer.
+
+After helping Gloria debug / solve her IT problem, the player returns to his desk.
+
+Suddenly, his boss walks over and talks to him about responsibility and thanks him for solving the issue with the lighting yesterday.
+
+Boss, "I've been hearing really good things about you.  You have already done a great job and you have only been here for a day."
+
+You, Smile at the Boss.
+
+Boss, "Well, don't forget to check in the server for any abnormalities.  We don't want our customers to lose business from *****"
+
+The Boss Leaves.
+
+[plaer]
